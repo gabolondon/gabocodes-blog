@@ -71,14 +71,14 @@ const p = PROFILE;
     </section>
 
     <section aria-labelledby="edu">
-      <h2 id="edu" class="pf-label">Education</h2>
+      <h2 id="edu" class="pf-label">Education and certificates</h2>
       <ul class="pf-edu">
         {
-          [...p.certificates, ...p.education].map((e) => (
+          [...p.certificates, ...p.education.map((e) => ({ ...e, href: undefined as string | undefined }))].map((e) => (
             <li>
               <span class="pf-when">{e.year}</span>
               <span>
-                <b>{e.title}</b> · {e.org}
+                <b>{e.href ? <a href={e.href} rel="noopener">{e.title}</a> : e.title}</b> · {e.org}
               </span>
             </li>
           ))
@@ -245,6 +245,12 @@ const p = PROFILE;
     grid-template-columns: 150px minmax(0, 1fr);
     gap: 24px;
     margin-bottom: 8px;
+  }
+  .pf-edu b a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
   }
   .pf-edu .pf-when {
     padding-top: 2px;

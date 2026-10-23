@@ -100,6 +100,8 @@ export const PROFILE = {
     { title: 'Industrial Instrumentation & Control (award program)', org: 'Universidad Pontificia Bolivariana, Montería', year: '2013' },
     { title: 'B.Sc. Electronics Engineering & Control', org: 'Universidad Pontificia Bolivariana, Montería', year: '2013' },
   ],
-  // TODO-REVIEW: Coursera professional certificates (names, issuer, year) from Gabriel.
-  certificates: [] as { title: string; org: string; year: string; href?: string }[],
+  certificates: [
+    { title: 'Introduction to Cybersecurity Careers', org: 'IBM · Coursera', year: '2026', href: 'https://coursera.org/verify/GXWZOLA2E59H' },
+    { title: 'Meta Front-End Developer Professional Certificate (9 courses)', org: 'Meta · Coursera', year: '2024', href: 'https://coursera.org/verify/professional-cert/FI8G0YNMWN7X' },
+  ] as { title: string; org: string; year: string; href?: string }[],
 };
