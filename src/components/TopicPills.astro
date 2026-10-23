@@ -1,0 +1,27 @@
+---
+import { topicLabel } from '../lib/post.ts';
+interface Props {
+  topics: string[];
+  current?: string;
+}
+const { topics, current } = Astro.props;
+---
+
+{
+  topics.length > 0 && (
+    <ul class="pills" aria-label="Topics" data-pagefind-ignore>
+      <li>
+        <a class="pill" href="/writing/" aria-current={current ? undefined : 'page'}>
+          All
+        </a>
+      </li>
+      {topics.map((t) => (
+        <li>
+          <a class="pill" href={`/topics/${t}/`} aria-current={current === t ? 'page' : undefined}>
+            {topicLabel(t)}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}

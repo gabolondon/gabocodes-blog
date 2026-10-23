@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import TopicPills from '../../components/TopicPills.astro';
+import PostCard from '../../components/PostCard.astro';
+import { sortPosts, topicsOf } from '../../lib/post.ts';
+
+const posts = sortPosts((await getCollection('posts')).filter((p) => p.data.lang === 'en'));
+---
+
+<Base title="Writing" description="All posts." active="writing">
+  <TopicPills slot="header" topics={topicsOf(posts)} />
+  <h1 class="page-title">Writing ({posts.length})</h1>
+  <div class="grid">{posts.map((p) => <PostCard post={p} />)}</div>
+</Base>

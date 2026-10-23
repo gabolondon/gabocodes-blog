@@ -1,0 +1,21 @@
+---
+interface Props {
+  active?: 'writing' | 'repos' | 'about' | '';
+}
+const { active = '' } = Astro.props;
+const item = (key: string) => (active === key ? { class: 'on', 'aria-current': 'page' as const } : {});
+---
+
+<div class="site-top">
+  <nav class="seg" aria-label="Main">
+    <a class="mark" href="/" aria-label="Gabriel Londoño, home">GL/</a>
+    <a href="/writing/" {...item('writing')}>Writing</a>
+    <a href="/repos/" {...item('repos')}>Repos</a>
+    <a href="/about/" {...item('about')}>About</a>
+  </nav>
+  <div class="seg" role="group" aria-label="Tools">
+    <button type="button" data-search-open aria-haspopup="dialog">Search</button>
+    <button type="button" data-theme-toggle aria-label="Toggle dark mode" aria-pressed="false">◐</button>
+    <a href="/rss.xml">RSS</a>
+  </div>
+</div>

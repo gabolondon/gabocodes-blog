@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { sortPosts } from '../../../lib/post.ts';
+
+const posts = sortPosts((await getCollection('posts')).filter((p) => p.data.lang === 'es'));
+---
+
+<Base title="Escritos" active="writing" lang="es">
+  <h1 class="page-title">Escritos</h1>
+  {posts.length === 0 && <p class="page-intro">Aún no hay textos en español.</p>}
+  <div class="grid">{posts.map((p) => <PostCard post={p} />)}</div>
+</Base>

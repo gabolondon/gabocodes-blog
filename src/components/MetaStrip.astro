@@ -1,0 +1,23 @@
+---
+import { readMinutes, formatMonth, repoName, type Post } from '../lib/post.ts';
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const d = post.data;
+---
+
+<div class="meta-strip">
+  <div><small>Read</small>{readMinutes(post.body)} min</div>
+  {d.stack && <div><small>Example stack</small>{d.stack.join(' · ')}</div>}
+  {d.result && <div><small>Result</small>{d.result}</div>}
+  <div><small>Published</small>{formatMonth(d.date)}</div>
+  {
+    d.repo_url && (
+      <div class="repo-cell">
+        <small>Runnable repo</small>
+        <a href={d.repo_url} rel="noopener">{repoName(d.repo_url)} ↗</a>
+      </div>
+    )
+  }
+</div>

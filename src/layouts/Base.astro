@@ -1,0 +1,86 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/newsreader/wght.css';
+import '@fontsource-variable/newsreader/wght-italic.css';
+import '@fontsource-variable/inter-tight/wght.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/post.css';
+import SegNav from '../components/SegNav.astro';
+import SearchDialog from '../components/SearchDialog.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  active?: 'writing' | 'repos' | 'about' | '';
+  ogImage?: string;
+  type?: 'website' | 'article';
+  lang?: 'en' | 'es';
+  progress?: boolean;
+}
+const {
+  title,
+  description = 'Technical deep dives on building LLM agents in production, with runnable example code.',
+  active = '',
+  ogImage,
+  type = 'website',
+  lang = 'en',
+  progress = false,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const og = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+const fullTitle = title === 'Gabriel Londoño' ? title : `${title} · Gabriel Londoño`;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <link rel="alternate" type="application/rss+xml" title="Gabriel Londoño" href="/rss.xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical.href} />
+    {og && <meta property="og:image" content={og} />}
+    <meta name="twitter:card" content={og ? 'summary_large_image' : 'summary'} />
+    <script is:inline>
+      (function () {
+        var t = null;
+        try {
+          t = localStorage.getItem('theme');
+        } catch (e) {}
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    {progress && <div class="progress" aria-hidden="true"><i id="progress-bar"></i></div>}
+    <div class="wrap">
+      <header data-pagefind-ignore>
+        <SegNav active={active} />
+        <slot name="header" />
+      </header>
+      <main id="main" tabindex="-1">
+        <slot />
+      </main>
+      <footer class="site-foot" data-pagefind-ignore>
+        <span>© Gabriel Londoño</span>
+        <span>Example code shows the pattern, not the production implementation.</span>
+      </footer>
+    </div>
+    <SearchDialog />
+    <script>
+      import '../scripts/chrome.ts';
+    </script>
+  </body>
+</html>

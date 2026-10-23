@@ -1,0 +1,47 @@
+{
+  "name": "gabocodes-blog",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "FIXTURE=1 astro dev",
+    "build": "astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "check:types": "FIXTURE=1 astro check",
+    "check:unit": "vitest run",
+    "check:build": "FIXTURE=1 astro build && pagefind --site dist",
+    "check:links": "node scripts/check-links.mjs",
+    "check:leaks": "node scripts/check-leaks.mjs",
+    "check": "pnpm run check:types && pnpm run check:unit && pnpm run check:build && pnpm run check:links && pnpm run check:leaks"
+  },
+  "type": "module",
+  "dependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/markdown-remark": "^7.3.4",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@fontsource-variable/inter-tight": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "@fontsource/archivo": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/hast": "^3.0.5",
+    "@types/mdast": "^4.0.4",
+    "astro": "^7.4.2",
+    "github-slugger": "^2.0.0",
+    "mdast-util-to-string": "^4.0.0",
+    "pagefind": "^1.5.2",
+    "remark-parse": "^11.0.0",
+    "satori": "^0.63.2",
+    "sharp": "^0.35.5",
+    "typescript": "^6.0.3",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0",
+    "vitest": "^5.0.5"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22.12"
+  },
+  "packageManager": "pnpm@12.14.0"
+}

@@ -1,0 +1,59 @@
+/* Design tokens. The head script always sets data-theme; the media query is the no-JS fallback. */
+:root {
+  --paper: #f4f4f2;
+  --surface: #ffffff;
+  --ink: #0b0b0b;
+  --ink-soft: #2a2a28;
+  --mute: #5e5e59; /* 5.7:1 on --paper */
+  --line: #0b0b0b;
+  --rule: #c9c9c4;
+  --accent: #16c172; /* dots and bars only, never text on light */
+  --good: #0a7a47; /* text green on light, 5.2:1 on --surface */
+  --code-bg: #121211;
+  --code-bar: #1f1f1d;
+  --code-ink: #d8d8d1;
+  --on-ink: #ffffff;
+  --focus: #0b57d0;
+
+  --font-display: 'Archivo Variable', 'Archivo', system-ui, sans-serif;
+  --font-read: 'Newsreader Variable', 'Newsreader', Georgia, serif;
+  --font-ui: 'Inter Tight Variable', 'Inter Tight', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+
+  --gutter: 16px;
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --paper: #111110;
+  --surface: #1a1a18;
+  --ink: #ededea;
+  --ink-soft: #d6d6d1;
+  --mute: #9a9a93;
+  --line: #ededea;
+  --rule: #3a3a36;
+  --good: #3ddc97;
+  --code-bg: #0a0a09;
+  --code-bar: #1c1c1a;
+  --on-ink: #0b0b0b;
+  --focus: #8ab4ff;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --paper: #111110;
+    --surface: #1a1a18;
+    --ink: #ededea;
+    --ink-soft: #d6d6d1;
+    --mute: #9a9a93;
+    --line: #ededea;
+    --rule: #3a3a36;
+    --good: #3ddc97;
+    --code-bg: #0a0a09;
+    --code-bar: #1c1c1a;
+    --on-ink: #0b0b0b;
+    --focus: #8ab4ff;
+    color-scheme: dark;
+  }
+}

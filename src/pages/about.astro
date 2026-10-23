@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import { BIO, DISCLAIMER } from '../lib/bio.ts';
+---
+
+<Base title="About" description="Who writes this blog and what it is for." active="about">
+  <h1 class="page-title">About</h1>
+  <div class="prose-page">
+    <p>{BIO}</p>
+    <h2>What this blog is</h2>
+    <p>
+      Deep dives for engineers and technical leaders. Every post starts from a specific problem, then shows the
+      solution on an example you can run.
+    </p>
+    <p>{DISCLAIMER}</p>
+    <h2>Contact</h2>
+    <p>
+      <a href="https://www.linkedin.com/in/gabriel-londo%C3%B1o-218443107/" rel="noopener">LinkedIn</a> ·
+      <a href="https://github.com/gabolondon" rel="noopener">GitHub</a> ·
+      <a href="/rss.xml">RSS</a>
+    </p>
+  </div>
+</Base>
+
+<style>
+  .prose-page {
+    max-width: 680px;
+    font-family: var(--font-read);
+    font-size: 20px;
+    line-height: 1.6;
+  }
+  .prose-page p {
+    margin-bottom: 20px;
+  }
+  .prose-page h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 26px;
+    margin: 36px 0 12px;
+  }
+</style>

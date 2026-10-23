@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import TopicPills from '../../components/TopicPills.astro';
+import PostCard from '../../components/PostCard.astro';
+import { sortPosts, topicsOf, topicLabel } from '../../lib/post.ts';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('posts')).filter((p) => p.data.lang === 'en');
+  return topicsOf(posts).map((topic) => ({
+    params: { topic },
+    props: { topic, topics: topicsOf(posts), posts: sortPosts(posts.filter((p) => p.data.tags.includes(topic))) },
+  }));
+}
+const { topic, topics, posts } = Astro.props;
+---
+
+<Base title={topicLabel(topic)} description={`Posts about ${topicLabel(topic)}.`} active="writing">
+  <TopicPills slot="header" topics={topics} current={topic} />
+  <h1 class="page-title">{topicLabel(topic)}</h1>
+  <div class="grid">{posts.map((p) => <PostCard post={p} />)}</div>
+</Base>

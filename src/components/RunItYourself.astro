@@ -1,0 +1,19 @@
+---
+import { repoName } from '../lib/post.ts';
+interface Props {
+  repoUrl: string;
+  commands: string[];
+}
+const { repoUrl, commands: all } = Astro.props;
+// the repo link below replaces the clone line, which is too long for the aside
+const commands = all.filter((c) => !c.trim().startsWith('git clone'));
+---
+
+<aside class="side" aria-label="Run it yourself" data-pagefind-ignore>
+  <div class="box">
+    <small>RUN IT YOURSELF</small>
+    <p>This is example code: it shows the pattern I used, not the production implementation.</p>
+    {commands.length > 0 && <pre><code>{commands.join('\n')}</code></pre>}
+    <a href={repoUrl} rel="noopener">{repoName(repoUrl)} ↗</a>
+  </div>
+</aside>

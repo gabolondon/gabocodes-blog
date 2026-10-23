@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import TopicPills from '../components/TopicPills.astro';
+import LeadPost from '../components/LeadPost.astro';
+import PostCard from '../components/PostCard.astro';
+import { pickLead, sortPosts, topicsOf } from '../lib/post.ts';
+
+const posts = (await getCollection('posts')).filter((p) => p.data.lang === 'en');
+const lead = pickLead(posts);
+const rest = sortPosts(posts).filter((p) => p !== lead);
+---
+
+<Base title="Gabriel Londoño" active="">
+  <TopicPills slot="header" topics={topicsOf(posts)} />
+  {lead && <LeadPost post={lead} />}
+
+  {
+    rest.length === 0 && (
+      <section class="about-strip" aria-labelledby="about-strip-h" data-pagefind-ignore>
+        <div>
+          <p class="label" id="about-strip-h">About this blog</p>
+        </div>
+        <p>
+          Technical deep dives on building LLM agents in production. Each one starts from a problem I hit, shows the
+          solution on example code you can run, and keeps the details one click away. <a href="/about/">More about the
+          author</a>.
+        </p>
+      </section>
+    )
+  }
+
+  {
+    rest.length > 0 && (
+      <section id="latest" data-view="grid" data-pagefind-ignore aria-labelledby="latest-h">
+        <div class="rule-head">
+          <b id="latest-h">Latest</b>
+          {rest.length > 3 && (
+            <span class="view-toggle">
+              View:
+              <button type="button" data-view-btn="grid" aria-pressed="true">Grid</button> /
+              <button type="button" data-view-btn="list" aria-pressed="false">List</button>
+            </span>
+          )}
+        </div>
+        <div class="grid">{rest.map((p) => <PostCard post={p} />)}</div>
+        <p class="meta-line"><a href="/writing/">All writing →</a></p>
+      </section>
+    )
+  }
+</Base>
+
+<script>
+  const sec = document.getElementById('latest');
+  document.querySelectorAll<HTMLButtonElement>('[data-view-btn]').forEach((b) =>
+    b.addEventListener('click', () => {
+      if (!sec) return;
+      sec.dataset.view = b.dataset.viewBtn;
+      document
+        .querySelectorAll<HTMLButtonElement>('[data-view-btn]')
+        .forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+    }),
+  );
+</script>

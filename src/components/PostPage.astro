@@ -1,0 +1,51 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProblemLine from './ProblemLine.astro';
+import MetaStrip from './MetaStrip.astro';
+import Toc from './Toc.astro';
+import RunItYourself from './RunItYourself.astro';
+import AuthorBio from './AuthorBio.astro';
+import { slugOf, topicLabel, type Post } from '../lib/post.ts';
+import { runCommands } from '../lib/run-commands.ts';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const d = post.data;
+const { Content, headings } = await render(post);
+const prefix = d.lang === 'es' ? '/es' : '';
+---
+
+<Base
+  title={d.title}
+  description={d.description}
+  active="writing"
+  type="article"
+  lang={d.lang}
+  ogImage={`/og/${slugOf(post)}.png`}
+  progress
+>
+  <article>
+    <header class="post-head">
+      <nav class="crumbs" aria-label="Breadcrumb" data-pagefind-ignore>
+        <a href={`${prefix}/writing/`}>Writing</a>
+        {d.tags[0] && (<><span aria-hidden="true">/</span><a href={`/topics/${d.tags[0]}/`}>{topicLabel(d.tags[0])}</a></>)}
+      </nav>
+      <ProblemLine text={d.problem} />
+      <h1 data-pagefind-meta="title">{d.title}</h1>
+      <p class="dek">{d.description}</p>
+      <MetaStrip post={post} />
+    </header>
+
+    <div class="post-body">
+      <Toc headings={headings} />
+      <div class="prose" data-pagefind-body>
+        <Content />
+      </div>
+      {d.repo_url && <RunItYourself repoUrl={d.repo_url} commands={runCommands(post.body)} />}
+      <AuthorBio />
+    </div>
+  </article>
+</Base>

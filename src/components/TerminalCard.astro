@@ -1,0 +1,10 @@
+---
+interface Props {
+  lines: { text: string; tone?: 'cmd' | 'ok' | 'bad' | 'dim' }[];
+}
+const { lines } = Astro.props;
+---
+
+<div class="term" role="img" aria-label="Terminal output from the example repo">
+  {lines.map((l) => <div class={l.tone ?? ''} aria-hidden="true">{l.text}</div>)}
+</div>

@@ -1,0 +1,24 @@
+---
+import ProblemLine from './ProblemLine.astro';
+import TerminalCard from './TerminalCard.astro';
+import { readMinutes, postHref, repoName, type Post } from '../lib/post.ts';
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+const d = post.data;
+---
+
+<section class="lead" aria-labelledby="lead-title">
+  <div>
+    <ProblemLine text={d.problem} />
+    <h2 id="lead-title"><a href={postHref(post)}>{d.title}</a></h2>
+    <p class="dek">{d.description}</p>
+    <p class="meta-line">
+      <span><b>{readMinutes(post.body)} min</b> read</span>
+      {d.stack && <span>Example stack: {d.stack.join(' · ')}</span>}
+      {d.repo_url && <span><b>repo ↗</b> <a href={d.repo_url} rel="noopener">{repoName(d.repo_url)}</a></span>}
+    </p>
+  </div>
+  {d.terminal && <TerminalCard lines={d.terminal} />}
+</section>

@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProblemLine from '../components/ProblemLine.astro';
+import { sortPosts, repoName, postHref } from '../lib/post.ts';
+
+const posts = sortPosts((await getCollection('posts')).filter((p) => p.data.lang === 'en' && p.data.repo_url));
+---
+
+<Base title="Repos" description="Runnable example repos that go with the posts." active="repos">
+  <h1 class="page-title">Repos</h1>
+  <p class="page-intro">Each post comes with a small repo you can run. It is example code: it shows the pattern, not the production implementation.</p>
+  <ul class="list">
+    {
+      posts.map((p) => (
+        <li>
+          <ProblemLine text={p.data.problem} small />
+          <h2 class="repo-name"><a href={p.data.repo_url} rel="noopener">{repoName(p.data.repo_url!)} ↗</a></h2>
+          <p class="meta-line">From the post <a href={postHref(p)}>{p.data.title}</a></p>
+        </li>
+      ))
+    }
+  </ul>
+</Base>
+
+<style>
+  .repo-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+  }
+</style>

@@ -1,0 +1,9 @@
+---
+interface Props {
+  text: string;
+  small?: boolean;
+}
+const { text, small = false } = Astro.props;
+---
+
+<p class:list={['problem', { sm: small }]}><i aria-hidden="true"></i><span>Problem · {text}</span></p>
