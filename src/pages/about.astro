@@ -1,28 +1,41 @@
 ---
 import Base from '../layouts/Base.astro';
-import { BIO, DISCLAIMER } from '../lib/bio.ts';
+import { DISCLAIMER } from '../lib/bio.ts';
+import { PROFILE } from '../lib/profile.ts';
 ---
 
 <Base title="About" description="Who writes this blog and what it is for." active="about">
   <h1 class="page-title">About</h1>
   <div class="prose-page">
-    <p>{BIO}</p>
     <h2>What this blog is</h2>
     <p>
       Deep dives for engineers and technical leaders. Every post starts from a specific problem, then shows the
       solution on an example you can run.
     </p>
     <p>{DISCLAIMER}</p>
+    <h2>Who writes it</h2>
+    <p>{PROFILE.summary}</p>
+    <p><a class="text-cta" href="/profile/">About Gabriel →</a></p>
     <h2>Contact</h2>
     <p>
-      <a href="https://www.linkedin.com/in/gabriel-londo%C3%B1o-218443107/" rel="noopener">LinkedIn</a> ·
-      <a href="https://github.com/gabolondon" rel="noopener">GitHub</a> ·
+      <a href="https://www.linkedin.com/in/gabriel-londo%C3%B1o-218443107/" rel="noopener">LinkedIn</a>{' · '}
+      <a href="https://github.com/gabolondon" rel="noopener">GitHub</a>{' · '}
       <a href="/rss.xml">RSS</a>
     </p>
   </div>
 </Base>
 
 <style>
+  .text-cta {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+  .text-cta:hover { text-decoration-thickness: 3px; }
   .prose-page {
     max-width: 680px;
     font-family: var(--font-read);

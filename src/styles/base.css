@@ -442,3 +442,17 @@ dialog.search {
     scroll-behavior: auto;
   }
 }
+
+/* print: the profile doubles as a CV */
+@media print {
+  .site-top,
+  .site-foot,
+  .progress,
+  .skip-link {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+}

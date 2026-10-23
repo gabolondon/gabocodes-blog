@@ -1,0 +1,274 @@
+---
+import Base from '../layouts/Base.astro';
+import { PROFILE } from '../lib/profile.ts';
+const p = PROFILE;
+---
+
+<Base title="Profile" description={`${p.name}: ${p.headline}. ${p.summary.split('. ')[0]}.`} active="profile">
+  <article class="profile">
+    <header class="pf-head">
+      <p class="problem"><i></i>{p.problem}</p>
+      <h1>{p.name}</h1>
+      <p class="pf-headline">{p.headline} · {p.location}</p>
+      <p class="pf-summary">{p.summary}</p>
+      <p class="pf-links">
+        {p.links.map((l) => <a href={l.href} rel="noopener">{l.label} ↗</a>)}
+        <button type="button" class="pf-print" onclick="window.print()">Print / save as PDF</button>
+      </p>
+    </header>
+
+    <section aria-labelledby="exp">
+      <h2 id="exp" class="pf-label">Experience</h2>
+      {
+        p.experience.map((r) => (
+          <div class="pf-role">
+            <p class="pf-when">
+              {r.start} – {r.end}
+            </p>
+            <div>
+              <h3>
+                {r.title} <span>· {r.org}{r.place ? `, ${r.place}` : ''}</span>
+              </h3>
+              {r.summary && <p class="pf-role-sum">{r.summary}</p>}
+              <ul>
+                {r.points.map((pt) => (
+                  <li>{pt}</li>
+                ))}
+              </ul>
+              {r.stack && <p class="pf-stack">{r.stack.join(' · ')}</p>}
+            </div>
+          </div>
+        ))
+      }
+    </section>
+
+    <section aria-labelledby="proj">
+      <h2 id="proj" class="pf-label">Projects</h2>
+      <div class="pf-grid">
+        {
+          p.projects.map((pr) => (
+            <div class="pf-card">
+              <h3>{pr.href ? <a href={pr.href}>{pr.name}</a> : pr.name}</h3>
+              <p>{pr.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section aria-labelledby="skills">
+      <h2 id="skills" class="pf-label">Skills</h2>
+      <dl class="pf-skills">
+        {
+          p.skills.map((g) => (
+            <div>
+              <dt>{g.name}</dt>
+              <dd>{g.items.join(' · ')}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section aria-labelledby="edu">
+      <h2 id="edu" class="pf-label">Education</h2>
+      <ul class="pf-edu">
+        {
+          [...p.certificates, ...p.education].map((e) => (
+            <li>
+              <span class="pf-when">{e.year}</span>
+              <span>
+                <b>{e.title}</b> · {e.org}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .profile {
+    max-width: 900px;
+    margin-top: 40px;
+  }
+  .pf-head h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 108%;
+    font-size: clamp(36px, 6vw, 58px);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+  .pf-headline {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--mute);
+    margin-top: 12px;
+  }
+  .pf-summary {
+    font-family: var(--font-read);
+    font-size: 21px;
+    line-height: 1.5;
+    margin-top: 18px;
+    max-width: 760px;
+  }
+  .pf-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 18px;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .pf-links a,
+  .pf-print {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+  .pf-print {
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+  }
+  .pf-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-top: 1px solid var(--line);
+    padding-top: 10px;
+    margin: 48px 0 18px;
+  }
+  .pf-role {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 24px;
+    margin-bottom: 30px;
+  }
+  .pf-when {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--mute);
+    padding-top: 6px;
+  }
+  .pf-role h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.15;
+  }
+  .pf-role h3 span {
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--ink-soft, var(--mute));
+  }
+  .pf-role-sum {
+    font-family: var(--font-ui);
+    color: var(--mute);
+    margin-top: 6px;
+  }
+  .pf-role ul {
+    margin: 10px 0 0 18px;
+    font-family: var(--font-read);
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  .pf-role li {
+    margin-bottom: 6px;
+  }
+  .pf-stack {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--mute);
+    margin-top: 8px;
+  }
+  .pf-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .pf-card {
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+  }
+  .pf-card h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 19px;
+  }
+  .pf-card h3 a {
+    color: inherit;
+  }
+  .pf-card p {
+    font-family: var(--font-ui);
+    font-size: 14.5px;
+    line-height: 1.45;
+    margin-top: 6px;
+    color: var(--ink-soft, var(--ink));
+  }
+  .pf-skills {
+    display: grid;
+    gap: 10px;
+  }
+  .pf-skills div {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 24px;
+  }
+  .pf-skills dt {
+    font-family: var(--font-ui);
+    font-weight: 600;
+  }
+  .pf-skills dd {
+    font-family: var(--font-ui);
+    margin: 0;
+  }
+  .pf-edu {
+    list-style: none;
+    padding: 0;
+    font-family: var(--font-ui);
+  }
+  .pf-edu li {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 24px;
+    margin-bottom: 8px;
+  }
+  .pf-edu .pf-when {
+    padding-top: 2px;
+  }
+  @media (max-width: 760px) {
+    .pf-role,
+    .pf-skills div,
+    .pf-edu li {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .pf-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media print {
+    .pf-print {
+      display: none;
+    }
+    .profile {
+      margin-top: 0;
+    }
+    .pf-role {
+      break-inside: avoid;
+    }
+  }
+</style>

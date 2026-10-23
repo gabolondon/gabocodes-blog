@@ -1,6 +1,6 @@
 ---
 interface Props {
-  active?: 'writing' | 'repos' | 'about' | '';
+  active?: 'writing' | 'repos' | 'about' | 'profile' | '';
 }
 const { active = '' } = Astro.props;
 const item = (key: string) => (active === key ? { class: 'on', 'aria-current': 'page' as const } : {});
@@ -12,6 +12,7 @@ const item = (key: string) => (active === key ? { class: 'on', 'aria-current': '
     <a href="/writing/" {...item('writing')}>Writing</a>
     <a href="/repos/" {...item('repos')}>Repos</a>
     <a href="/about/" {...item('about')}>About</a>
+    <a href="/profile/" {...item('profile')}>Profile</a>
   </nav>
   <div class="seg" role="group" aria-label="Tools">
     <button type="button" data-search-open aria-haspopup="dialog">Search</button>
