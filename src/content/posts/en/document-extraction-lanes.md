@@ -8,6 +8,7 @@ lang: en
 i18n_key: document-extraction-lanes
 stack: [PyMuPDF, Ollama, Qwen3, Gemma 4, Qwen2.5-VL, Presidio]
 result: "Best local: 79.8% exact rows · redacted cloud vision: 99–100% precision"
+repo_url: https://github.com/gabolondon/extraction-lanes-demo
 terminal:
   - {text: "$ make bench-lanes", tone: cmd}
   - {text: "layout  cert_en_clean    strict 100%  text layer ok", tone: ok}

@@ -8,6 +8,7 @@ lang: en
 i18n_key: document-extraction-judge
 stack: [Jev, decider-4b, JevK5, gemma4, MLX, llama.cpp, Ollama]
 result: "171 decisions: 131.5 s → 1.7 s for $0.0036, same accuracy"
+repo_url: https://github.com/gabolondon/extraction-lanes-demo
 terminal:
   - {text: "$ make bench-matcher", tone: cmd}
   - {text: "naive  129/160  accuracy 0.81  confident errors 3", tone: bad}
