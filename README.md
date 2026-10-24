@@ -27,13 +27,18 @@ ghostwriter `scripts/export_blog.py` writes `src/content/posts/<lang>/<slug>.md`
 - Author bio text (`src/lib/bio.ts`, shown in `AuthorBio` and `/about`): from the old portfolio (gabrielportfolio.pages.dev), to refresh when that profile is updated. It is the only place the employer appears.
 - Open Graph images use Archivo and JetBrains Mono; check them once with the real post.
 
-## Launch steps (Gabriel; nothing here has been run)
+## Launch steps (Gabriel)
 
-1. ~~Publish `agent-upgrade-demo` to GitHub~~ (github.com/gabolondon/agent-upgrade-demo).
-2. ~~Re-approve blog v4 and export it~~ (done 2026-10-23: `src/content/posts/en/agent-upgrade-journey.md`).
-3. `pnpm run check`, review, commit.
-4. Create the GitHub repo and push.
-5. Create the Cloudflare Pages project: build command `pnpm run build` (Pages detects pnpm from `pnpm-lock.yaml` and `packageManager`), output directory `dist`, Node 24 (`NODE_VERSION=24`).
-6. Add the custom domain `blog.gabocodes.com` (CNAME in the `gabocodes.com` zone).
-7. Enable Cloudflare Web Analytics from the Pages dashboard (cookieless, nothing to add to the repo).
-8. Confirm `FIXTURE` is not set in the Pages environment; delete the fixture post if you do not want it in the repo.
+Cloudflare now deploys Git-connected static sites as a Worker with static assets (Workers Builds), configured by `wrangler.jsonc` in this repo. There is no framework preset or output-directory field in the dashboard: `wrangler.jsonc` says the assets live in `dist/`.
+
+1. ~~Publish `agent-upgrade-demo`~~, ~~export the first post~~, ~~create the GitHub repo~~ (done).
+2. `git push` so `wrangler.jsonc` is on `main`.
+3. Dashboard: Workers & Pages → Create → Import a repository → GitHub → `gabolondon/gabocodes-blog`.
+4. Project name `gabocodes-blog` (must match `name` in `wrangler.jsonc`). Build command: `pnpm run build`. Deploy command: `pnpm exec wrangler deploy` (wrangler is a pinned devDependency; `pnpm-workspace.yaml` allows the esbuild and workerd build scripts that pnpm blocks by default). Production branch `main`.
+5. Node version: comes from `.nvmrc` (24). Do not add a `NODE_VERSION` variable; if one exists, delete it or set it to `24`. Do not set `FIXTURE`.
+6. Deploy. The first build gives a `gabocodes-blog.<account>.workers.dev` URL; check it loads.
+7. Settings → Domains & Routes → Add → Custom domain → `blog.gabocodes.com`.
+8. Web Analytics: Cloudflare dashboard → Analytics & Logs → Web Analytics → add the site (`blog.gabocodes.com`), automatic setup.
+9. Check: home with the agent post as lead and "Latest" with the extraction series; no bakery fixture post.
+
+After that, every push to `main` builds and deploys. Rollback: the Worker's Deployments tab.

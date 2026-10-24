@@ -1,0 +1,9 @@
+// Cloudflare Workers static assets: the site is fully static (Astro build output in dist/).
+{
+  "name": "gabocodes-blog",
+  "compatibility_date": "2026-10-24",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
