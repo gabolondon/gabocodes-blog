@@ -7,16 +7,16 @@ import { sortPosts, repoName, postHref } from '../lib/post.ts';
 const posts = sortPosts((await getCollection('posts')).filter((p) => p.data.lang === 'en' && p.data.repo_url));
 ---
 
-<Base title="Repos" description="Runnable example repos that go with the posts." active="repos">
+<Base title="Repos" description="The repos that go with the posts: runnable examples, and my public projects." active="repos">
   <h1 class="page-title">Repos</h1>
-  <p class="page-intro">Each post comes with a small repo you can run. It is example code: it shows the pattern, not the production implementation.</p>
+  <p class="page-intro">Each post comes with a repo. Most are small examples you can run: they show the pattern, not the production implementation. Some are my public projects, the real thing.</p>
   <ul class="list">
     {
       posts.map((p) => (
         <li>
           <ProblemLine text={p.data.problem} small />
           <h2 class="repo-name"><a href={p.data.repo_url} rel="noopener">{repoName(p.data.repo_url!)} ↗</a></h2>
-          <p class="meta-line">From the post <a href={postHref(p)}>{p.data.title}</a></p>
+          <p class="meta-line">{p.data.repo_kind === 'project' ? 'Project' : 'Example'} · from the post <a href={postHref(p)}>{p.data.title}</a></p>
         </li>
       ))
     }

@@ -29,6 +29,12 @@ export function topicsOf(posts: Post[]): string[] {
   return [...new Set(posts.flatMap((p) => p.data.tags))].sort();
 }
 
+/** Labels for a post's repo: an example repo shows the pattern, a project repo is the real thing. */
+export function repoLabels(d: { repo_kind: 'example' | 'project' }) {
+  const example = d.repo_kind === 'example';
+  return { example, stack: example ? 'Example stack' : 'Stack', repo: example ? 'Runnable repo' : 'Repo' };
+}
+
 export const repoName = (url: string) => url.replace(/\/+$/, '').split('/').pop() ?? url;
 
 export const postHref = (p: Post) => `${p.data.lang === 'es' ? '/es' : ''}/writing/${slugOf(p)}/`;

@@ -1,12 +1,13 @@
 ---
 import ProblemLine from './ProblemLine.astro';
-import { readMinutes, postHref, topicLabel, type Post } from '../lib/post.ts';
+import { readMinutes, postHref, topicLabel, repoLabels, type Post } from '../lib/post.ts';
 interface Props {
   post: Post;
   as?: 'li' | 'div';
 }
 const { post } = Astro.props;
 const d = post.data;
+const labels = repoLabels(d);
 ---
 
 <article class="card">
@@ -16,7 +17,7 @@ const d = post.data;
   <p class="meta-line">
     <span>{readMinutes(post.body)} min</span>
     {d.tags[0] && <span>{topicLabel(d.tags[0])}</span>}
-    {d.stack && <span>Example stack: {d.stack.join(' · ')}</span>}
+    {d.stack && <span>{labels.stack}: {d.stack.join(' · ')}</span>}
     {d.repo_url && <span>repo</span>}
   </p>
 </article>

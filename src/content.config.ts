@@ -17,6 +17,8 @@ export const postSchema = z
     stack: z.array(z.string()).optional(),
     result: z.string().optional(),
     repo_url: z.url().optional(),
+    // 'example': a companion repo that shows the pattern; 'project': the real, public project itself
+    repo_kind: z.enum(['example', 'project']).default('example'),
     terminal: z
       .array(
         z.object({

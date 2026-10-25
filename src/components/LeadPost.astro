@@ -1,12 +1,13 @@
 ---
 import ProblemLine from './ProblemLine.astro';
 import TerminalCard from './TerminalCard.astro';
-import { readMinutes, postHref, repoName, type Post } from '../lib/post.ts';
+import { readMinutes, postHref, repoName, repoLabels, type Post } from '../lib/post.ts';
 interface Props {
   post: Post;
 }
 const { post } = Astro.props;
 const d = post.data;
+const labels = repoLabels(d);
 ---
 
 <section class="lead" aria-labelledby="lead-title">
@@ -16,7 +17,7 @@ const d = post.data;
     <p class="dek">{d.description}</p>
     <p class="meta-line">
       <span><b>{readMinutes(post.body)} min</b> read</span>
-      {d.stack && <span>Example stack: {d.stack.join(' · ')}</span>}
+      {d.stack && <span>{labels.stack}: {d.stack.join(' · ')}</span>}
       {d.repo_url && <span><b>repo ↗</b> <a href={d.repo_url} rel="noopener">{repoName(d.repo_url)}</a></span>}
     </p>
   </div>

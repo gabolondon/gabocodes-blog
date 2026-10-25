@@ -44,7 +44,7 @@ const prefix = d.lang === 'es' ? '/es' : '';
       <div class="prose" data-pagefind-body>
         <Content />
       </div>
-      {d.repo_url && <RunItYourself repoUrl={d.repo_url} commands={runCommands(post.body)} />}
+      {d.repo_url && <RunItYourself repoUrl={d.repo_url} commands={runCommands(post.body)} example={d.repo_kind === 'example'} />}
       <AuthorBio />
     </div>
   </article>
