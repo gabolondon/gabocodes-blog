@@ -1,6 +1,6 @@
 // Gabriel's professional profile: the data behind /profile (and the short summary on /about).
 // Plain data on purpose: later this becomes the high-level knowledge base of his experience,
-// updated as new posts land. Reader-facing: no employer internals, only what the blog already says.
+// updated as new posts land. Reader-facing: no employer internals, only details suitable for public use.
 
 export interface Role {
   title: string;
@@ -18,13 +18,20 @@ export interface SkillGroup {
   items: string[];
 }
 
+interface Project {
+  name: string;
+  href?: string;
+  text: string;
+  links?: { label: string; href: string }[];
+}
+
 export const PROFILE = {
   name: 'Gabriel Londoño',
   headline: 'Software engineer · Electronics engineer',
   problem: 'Profile · LLM agents in production',
   location: 'Colombia · remote',
   summary:
-    'Software engineer building LLM agents and the systems around them in production. I came to software from electronics: seven years running a technology department and programming control systems, then full-stack web and mobile work, and for the last three years AI agents at a health-AI startup. I care about measuring before optimizing, and about shipping the boring parts that make an agent trustworthy: evaluation, caching, streaming and safe deployments.',
+    'I build AI agents and the backend systems that keep them useful in production. At Omniscope, I work on Python APIs, Google Cloud, agent evaluation and private model serving. My background spans electronics, healthcare technology operations and full-stack development. I also deploy agents that connect to the tools and data small businesses already use.',
   links: [
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/gabriel-londo%C3%B1o-218443107/' },
     { label: 'GitHub', href: 'https://github.com/gabolondon' },
@@ -35,14 +42,17 @@ export const PROFILE = {
       org: 'Omniscope',
       start: 'Oct 2023',
       end: 'present',
-      summary: 'Health-AI startup. I own an LLM assistant in the product, from the agent to its evaluation and deployment.',
+      summary: 'I build and maintain AI agents and the systems that support them at a health AI company.',
       points: [
-        'Upgraded a production LLM agent: replaced a planner and specialist sub-agents with a small triage model and one agent with direct tools, a model per role, streaming responses and a cache for the report that opens every chat.',
-        'Built the evaluation benchmark the team did not have: scripted conversations, expert rules checked by an LLM judge that sees the evidence and votes three times. Production against the release: correct answers from 37 to 57 of 61, and the questions that took up to 170 s answered in 22 to 28 s.',
-        'Found and closed an access gap in a deployment where an old open rule overrode the restrictive one; added the check so a stranger without credentials gets nothing.',
-        'Work daily with AI coding agents (Claude Code and others) as part of the engineering team: planning, sub-agent research, reviews and test-first changes.',
+        'Contributed backend data integration to ImmuneGPT while working with Google engineers and took over maintenance and upgrades after handoff. The assistant answers questions about immune profiles and grounds its answers in scientific literature. I also deploy Python services, build agents with Google ADK and maintain retrieval workflows on Vertex AI.',
+        'Refactored production agent orchestration and built a multi-turn evaluation suite with expert-defined criteria and an LLM judge that checks the available evidence. In an anonymized release benchmark, correct answers rose from 37 to 57 out of 61 and p95 answer latency fell from 46.3 to 30.7 seconds. The upgrade simplified orchestration, cached an expensive opening response and streamed answers.',
+        'Meet with lab and business teams to identify operational needs, configure agents and help colleagues build their own. I connect local and existing AI tools to services such as HubSpot and Google Workspace, including Gmail, for workflows such as invoice review and billing.',
+        'Built a private RAG platform that is now in an internal pilot. It incrementally indexes structured and unstructured documents, combines semantic and keyword search, and cites original sources. Agents can access it through MCP or an API.',
+        'Designed and deployed private inference for open-weight language models, speech recognition and speech synthesis. I benchmarked model and hardware configurations, integrated model serving with access controls, packaged Hermes for desktop use and built a web interface for executives.',
+        'Closed a deployment access gap and added a check to verify that unauthenticated requests are denied.',
+        'Use AI coding agents in daily engineering work, including planning, research, reviews and test-first changes.',
       ],
-      stack: ['Python', 'LLM agents', 'LLM-as-judge', 'Streaming APIs', 'Docker', 'Cloud deployments'],
+      stack: ['Python', 'Google Cloud', 'Google ADK', 'Vertex AI', 'MCP', 'LLM-as-judge', 'Docker'],
     },
     {
       title: 'Full-stack application developer',
@@ -86,14 +96,49 @@ export const PROFILE = {
       name: 'A writing pipeline for engineers',
       text: 'A personal Claude Code plugin that turns git history and coding-agent sessions into technical writing, with an IP gate before anything is published. Python, shell, subagents, a small n8n + Baserow queue on a Raspberry Pi.',
     },
-  ],
+    {
+      name: 'Healthcare invoice review',
+      text: 'Deployed a Hermes agent for a clinic to review invoices before submission to a payer. It connects to internal services and runs a local language model on a clinic-managed server. The workflow is in use and its review rules are still being tuned.',
+    },
+    {
+      name: 'Fitness coaching operations',
+      text: 'Migrated spreadsheet records into Airtable for a fitness business coaching agency and connected Airtable, Basecamp and Hermes through APIs. The prototype used Baserow. Airtable now serves as the main data store, and Dropbox integration is being explored.',
+    },
+    {
+      name: 'Self-hosted agents',
+      text: 'Run Hermes Agent on a Raspberry Pi, previously experimented with OpenClaw and built a personal agent that connects the services I use.',
+    },
+    {
+      name: 'agentic-fbd',
+      href: 'https://afbd.gabocodes.com/',
+      text: 'An open-source Claude Code skill that turns agent plans into interactive function block diagrams. Typed connections and validation help surface logic and state inconsistencies.',
+      links: [
+        { label: 'Source', href: 'https://github.com/gabolondon/agentic-fbd' },
+        { label: 'Write-up', href: '/writing/agentic-fbd/' },
+      ],
+    },
+    {
+      name: 'Agent upgrade benchmark',
+      href: '/writing/agent-upgrade-journey/',
+      text: 'An anonymized account of how I evaluated and upgraded a production agent, with results for answer accuracy and latency.',
+    },
+    {
+      name: 'Document extraction',
+      href: '/writing/document-extraction-lanes/',
+      text: 'Benchmarks on extracting data from unstructured PDFs with local and cloud models, redacting before cloud processing and using LLM judges to evaluate extracted fields.',
+      links: [{ label: 'Evaluation write-up', href: '/writing/document-extraction-judge/' }],
+    },
+  ] as Project[],
   skills: [
-    { name: 'LLM engineering', items: ['Agents (LangGraph)', 'Evaluation and LLM-as-judge', 'Caching and latency', 'Streaming', 'Prompt and tool design', 'OpenRouter', 'Local models (Ollama)'] },
+    { name: 'LLM engineering', items: ['Google ADK', 'LangGraph', 'Hermes', 'MCP', 'Evaluation and LLM-as-judge', 'Caching and latency', 'Streaming', 'Prompt and tool design', 'OpenRouter', 'Local models (Ollama)'] },
+    { name: 'Retrieval', items: ['RAG', 'Vertex AI', 'Milvus', 'Hybrid search (BM25 and embeddings)', 'Reranking', 'Source citations', 'Incremental indexing'] },
+    { name: 'Inference and security', items: ['LiteLLM', 'GPU model serving', 'Speech recognition and synthesis', 'WireGuard', 'Role-based access'] },
     { name: 'AI coding tools', items: ['Claude Code', 'OpenCode', 'Gemini CLI', 'Antigravity', 'ChatGPT'] },
-    { name: 'Backend', items: ['Python', 'FastAPI', 'Django REST', 'PostgreSQL', 'MySQL'] },
-    { name: 'Infrastructure', items: ['Docker / Compose', 'nginx', 'GCP', 'AWS', 'Cloudflare (Pages, Access, Tunnels)', 'CI pipelines'] },
+    { name: 'Backend', items: ['Python', 'FastAPI', 'Django REST', 'PostgreSQL', 'MySQL', 'Cloud SQL', 'Amazon Aurora'] },
+    { name: 'Infrastructure', items: ['Docker / Compose', 'nginx', 'Google Cloud (Compute Engine, Cloud Run)', 'AWS', 'Cloudflare (Pages, Access, Tunnels)', 'CI pipelines'] },
     { name: 'Frontend and mobile', items: ['TypeScript', 'React', 'React Native', 'Angular', 'Astro'] },
     { name: 'Electronics', items: ['PLC, SCADA, HMI', 'STM32', 'Arduino', 'Raspberry Pi'] },
+    { name: 'Languages', items: ['Spanish (native)', 'English (C1, self-assessed and used daily at Omniscope)'] },
   ] satisfies SkillGroup[],
   education: [
     { title: 'Diploma in Maintenance Management', org: 'Universidad Tecnológica de Bolívar, Cartagena', year: '2021' },

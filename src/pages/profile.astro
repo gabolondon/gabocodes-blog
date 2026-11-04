@@ -50,6 +50,11 @@ const p = PROFILE;
             <div class="pf-card">
               <h3>{pr.href ? <a href={pr.href}>{pr.name}</a> : pr.name}</h3>
               <p>{pr.text}</p>
+              {pr.links && (
+                <p class="pf-card-links">
+                  {pr.links.map((link) => <a href={link.href}>{link.label} ↗</a>)}
+                </p>
+              )}
             </div>
           ))
         }
@@ -217,6 +222,14 @@ const p = PROFILE;
     line-height: 1.45;
     margin-top: 6px;
     color: var(--ink-soft, var(--ink));
+  }
+  .pf-card-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+  }
+  .pf-card-links a {
+    color: inherit;
   }
   .pf-skills {
     display: grid;
